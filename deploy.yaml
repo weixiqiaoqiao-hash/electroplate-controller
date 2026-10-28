@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: electroplate-controller
+  labels:
+    app: electroplate-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: electroplate-controller
+  template:
+    metadata:
+      labels:
+        app: electroplate-controller
+    spec:
+      containers:
+        - name: app
+          image: electroplate-controller:BUILD_NUMBER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            # 这里根据你项目的实际 application.yml 要求注入环境变量
+            - name: MYSQL_HOST
+              value: "192.168.42.132"  # 替换为你实际的 MySQL IP
+            - name: MYSQL_PASSWORD
+              value: "fmpi6InFPZP73XC"           # 替换为你实际的 MySQL 密码
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PORT
+              value: "3306"
+          # 可以按需补充 Redis 等配置
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: electroplate-controller-svc
+spec:
+  type: NodePort
+  selector:
+    app: electroplate-controller
+  ports:
+    - port: 8080
+      targetPort: 8080

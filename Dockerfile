@@ -15,6 +15,7 @@ RUN npm run build
 FROM maven:3.9-eclipse-temurin-8 AS backend-build
 WORKDIR /build
 COPY backend/pom.xml backend/pom.xml
+COPY backend/settings.xml /root/.m2/settings.xml
 # 预热依赖缓存；失败不阻断构建（不影响后续 package）
 RUN mvn -q -B -f backend/pom.xml -DskipTests dependency:go-offline || true
 COPY backend backend

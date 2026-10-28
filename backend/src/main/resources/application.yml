@@ -5,9 +5,10 @@ spring:
   datasource:
     # 部署到车间机器时请务必修改为本机 MySQL 的实际账号与强密码
     # createDatabaseIfNotExist=true：库不存在时由驱动自动创建，保证 schema.sql 能执行
-    url: jdbc:mysql://192.168.2.43:3306/electroplate?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&createDatabaseIfNotExist=true
-    username: root
-    password: fmpi6InFPZP73XC
+    # 支持环境变量覆盖（容器部署用），未设置时使用冒号后的默认值
+    url: jdbc:mysql://${MYSQL_HOST:192.168.2.43}:${MYSQL_PORT:3306}/${MYSQL_DB:electroplate}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&createDatabaseIfNotExist=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:fmpi6InFPZP73XC}
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:

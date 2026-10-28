@@ -27,7 +27,7 @@ function onTabChange(path) {
 <template>
   <el-container class="layout">
     <el-aside width="200px" class="aside">
-      <div class="brand">电镀控制系统</div>
+      <div class="brand">玖维-电镀控制系统</div>
       <el-menu
         router
         :default-active="activeModule"

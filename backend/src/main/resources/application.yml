@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # 部署到车间机器时请务必修改为本机 MySQL 的实际账号与强密码
+    # createDatabaseIfNotExist=true：库不存在时由驱动自动创建，保证 schema.sql 能执行
+    url: jdbc:mysql://192.168.2.43:3306/electroplate?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true&createDatabaseIfNotExist=true
+    username: root
+    password: fmpi6InFPZP73XC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      # 每次启动执行建库建表脚本（DDL 幂等），首次部署自动完成初始化
+      mode: always
+      schema-locations: classpath:schema.sql
+      continue-on-error: false
+      # schema.sql 为 UTF-8 编码，Windows 默认 GBK，必须显式指定读取编码
+      encoding: UTF-8
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+
+logging:
+  file:
+    name: logs/electroplate.log
